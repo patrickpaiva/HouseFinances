@@ -4,7 +4,7 @@
     {
         public int ExpenseID { get; set; }
         public int ExpenseTypeID { get; set; }
-        public int BudgetItemID { get; set; }
+        public int RubricItemID { get; set; }
         public int PersonID { get; set; }
         public DateTime Date { get; set; }
         public string Observation { get; set; } = String.Empty;
