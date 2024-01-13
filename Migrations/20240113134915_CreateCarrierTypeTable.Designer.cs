@@ -4,6 +4,7 @@ using HouseFinances.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HouseFinances.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240113134915_CreateCarrierTypeTable")]
+    partial class CreateCarrierTypeTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,21 +24,6 @@ namespace HouseFinances.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("CarrierPaymentMethod", b =>
-                {
-                    b.Property<int>("CarrierID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PaymentMethodsPaymentMethodID")
-                        .HasColumnType("int");
-
-                    b.HasKey("CarrierID", "PaymentMethodsPaymentMethodID");
-
-                    b.HasIndex("PaymentMethodsPaymentMethodID");
-
-                    b.ToTable("CarrierPaymentMethods", (string)null);
-                });
 
             modelBuilder.Entity("HouseFinances.Entities.Carrier", b =>
                 {
@@ -52,14 +40,9 @@ namespace HouseFinances.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PersonID")
-                        .HasColumnType("int");
-
                     b.HasKey("CarrierID");
 
                     b.HasIndex("CarrierTypeID");
-
-                    b.HasIndex("PersonID");
 
                     b.ToTable("Carriers");
                 });
@@ -161,11 +144,16 @@ namespace HouseFinances.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentMethodID"));
 
+                    b.Property<int>("CarrierId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("PaymentMethodID");
+
+                    b.HasIndex("CarrierId");
 
                     b.ToTable("PaymentMethods");
                 });
@@ -209,21 +197,6 @@ namespace HouseFinances.Migrations
                     b.ToTable("RubricItems");
                 });
 
-            modelBuilder.Entity("CarrierPaymentMethod", b =>
-                {
-                    b.HasOne("HouseFinances.Entities.Carrier", null)
-                        .WithMany()
-                        .HasForeignKey("CarrierID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("HouseFinances.Entities.PaymentMethod", null)
-                        .WithMany()
-                        .HasForeignKey("PaymentMethodsPaymentMethodID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("HouseFinances.Entities.Carrier", b =>
                 {
                     b.HasOne("HouseFinances.Entities.CarrierType", "CarrierType")
@@ -232,15 +205,7 @@ namespace HouseFinances.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("HouseFinances.Entities.Person", "Person")
-                        .WithMany()
-                        .HasForeignKey("PersonID")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
                     b.Navigation("CarrierType");
-
-                    b.Navigation("Person");
                 });
 
             modelBuilder.Entity("HouseFinances.Entities.Expense", b =>
@@ -286,6 +251,17 @@ namespace HouseFinances.Migrations
                     b.Navigation("RubricItem");
                 });
 
+            modelBuilder.Entity("HouseFinances.Entities.PaymentMethod", b =>
+                {
+                    b.HasOne("HouseFinances.Entities.Carrier", "Carrier")
+                        .WithMany("PaymentMethods")
+                        .HasForeignKey("CarrierId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Carrier");
+                });
+
             modelBuilder.Entity("HouseFinances.Entities.RubricItem", b =>
                 {
                     b.HasOne("HouseFinances.Entities.ExpenseType", "ExpenseType")
@@ -295,6 +271,11 @@ namespace HouseFinances.Migrations
                         .IsRequired();
 
                     b.Navigation("ExpenseType");
+                });
+
+            modelBuilder.Entity("HouseFinances.Entities.Carrier", b =>
+                {
+                    b.Navigation("PaymentMethods");
                 });
 #pragma warning restore 612, 618
         }

@@ -5,10 +5,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Reflection.Emit;
 
-public class PaymentMethodConfiguration : IEntityTypeConfiguration<PaymentMethod>
+public class CarrierTypeConfiguration : IEntityTypeConfiguration<CarrierType>
 {
-    public void Configure(EntityTypeBuilder<PaymentMethod> builder)
+    public void Configure(EntityTypeBuilder<CarrierType> builder)
     {
-        builder.HasKey(e => e.PaymentMethodID);
+        builder.HasKey(et => et.CarrierTypeID);
+
     }
 }

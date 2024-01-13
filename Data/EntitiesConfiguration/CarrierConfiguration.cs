@@ -11,8 +11,18 @@ public class CarrierConfiguration : IEntityTypeConfiguration<Carrier>
     {
         builder.HasKey(e => e.CarrierID);
 
+        builder.HasOne(e => e.CarrierType)
+               .WithMany()
+               .HasForeignKey(e => e.CarrierTypeID)
+               .OnDelete(DeleteBehavior.NoAction);
+
+        builder.HasOne(e => e.Person)
+               .WithMany()
+               .HasForeignKey(e => e.PersonID)
+               .OnDelete(DeleteBehavior.NoAction);
+
         builder.HasMany(c => c.PaymentMethods)
-               .WithOne(pm => pm.Carrier)
-               .HasForeignKey(pm => pm.CarrierId);
+               .WithMany()
+               .UsingEntity(j => j.ToTable("CarrierPaymentMethods"));
     }
 }
