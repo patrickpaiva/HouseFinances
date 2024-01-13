@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using HouseFinances.DTO;
 using HouseFinances.Entities;
+using HouseFinances.Repositories;
 using HouseFinances.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,9 +20,9 @@ namespace HouseFinances.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Expense>>> GetExpenses()
+        public async Task<IEnumerable<Expense>> GetExpenses()
         {
-            return Ok();
+            return await _expenseService.GetLastExpenses();
         }
         [HttpPost]
         public async Task<ActionResult> CreateExpense([FromBody] CreateExpenseRequestDTO expense)
