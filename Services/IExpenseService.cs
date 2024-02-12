@@ -8,5 +8,6 @@ namespace HouseFinances.Services
     {
         Task<Expense> CreateExpense(CreateExpenseRequestDTO expense);
         Task<IEnumerable<Expense>> GetLastExpenses();
+        Task<IEnumerable<Expense>> GetExpensesInDateRange(DateTime startDate, DateTime endDate, int personId, int expenseTypeId, int carrierId);
     }
 }

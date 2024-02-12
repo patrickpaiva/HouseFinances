@@ -27,7 +27,17 @@ namespace HouseFinances.Services
 
         public async Task<IEnumerable<Expense>> GetLastExpenses()
         {
-            return await _expenseRepository.GetAllExpensesAsync();
+            return await _expenseRepository.GetLastExpensesAsync();
+        }
+
+        public async Task<IEnumerable<Expense>> GetExpensesInDateRange(
+            DateTime startDate, 
+            DateTime endDate, 
+            int personId,
+            int expenseTypeId,
+            int carrierId)
+        {
+            return await _expenseRepository.GetExpensesInDateRangeAsync(startDate, endDate, personId, expenseTypeId, carrierId);
         }
     }
 }

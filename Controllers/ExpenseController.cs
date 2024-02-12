@@ -20,10 +20,29 @@ namespace HouseFinances.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<Expense>> GetExpenses()
+        public async Task<ActionResult<IEnumerable<Expense>>> GetExpensesInDateRange(
+            [FromQuery] DateTime startDate, 
+            [FromQuery] DateTime endDate,
+            [FromQuery] int personId,
+            [FromQuery] int expenseTypeId,
+            [FromQuery] int carrierId
+            )
         {
-            return await _expenseService.GetLastExpenses();
+            if (startDate == DateTime.MinValue || endDate == DateTime.MinValue)
+            {
+                return BadRequest("As datas de início e término são obrigatórias.");
+            }
+            var expenses = await _expenseService.GetExpensesInDateRange(startDate, endDate, personId, expenseTypeId, carrierId);
+            return Ok(expenses);
+            
         }
+
+        [HttpGet("last")]
+        public async Task<ActionResult<IEnumerable<Expense>>> GetLastExpenses()
+        {
+            return Ok(await _expenseService.GetLastExpenses());
+        }
+
         [HttpPost]
         public async Task<ActionResult> CreateExpense([FromBody] CreateExpenseRequestDTO expense)
         {

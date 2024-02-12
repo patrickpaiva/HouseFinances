@@ -18,9 +18,39 @@ namespace HouseFinances.Repositories
             return await _context.Expenses.FindAsync(expenseId);
         }
 
-        public async Task<IEnumerable<Expense>> GetAllExpensesAsync()
+        public async Task<IEnumerable<Expense>> GetLastExpensesAsync()
         {
-            return await _context.Expenses.ToListAsync();
+            return await _context.Expenses
+                .OrderByDescending(e => e.Date)
+                .Take(100)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Expense>> GetExpensesInDateRangeAsync(
+            DateTime startDate, 
+            DateTime endDate, 
+            int? personId = null,
+            int? expenseTypeId = null,
+            int? carrierId = null
+            )
+        {
+            var query = _context.Expenses
+                .Where(e => e.Date >= startDate && e.Date <= endDate);
+
+            if (personId.HasValue)
+            {
+                query = query.Where(e => e.PersonID == personId);
+            }
+            if (expenseTypeId.HasValue)
+            {
+                query = query.Where(e => e.ExpenseTypeID == expenseTypeId);
+            }
+            if (carrierId.HasValue)
+            {
+                query = query.Where(e => e.CarrierID == carrierId);
+            }
+
+            return await query.ToListAsync();
         }
 
         public async Task AddExpenseAsync(Expense expense)
