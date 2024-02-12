@@ -3,6 +3,7 @@ using HouseFinances.DTO;
 using HouseFinances.Entities;
 using HouseFinances.Repositories;
 using HouseFinances.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,6 +11,7 @@ namespace HouseFinances.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Admin,User")]
     public class ExpenseController : ControllerBase
     {
         private readonly IExpenseService _expenseService;

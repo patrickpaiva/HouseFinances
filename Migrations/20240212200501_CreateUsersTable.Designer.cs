@@ -4,6 +4,7 @@ using HouseFinances.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HouseFinances.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240212200501_CreateUsersTable")]
+    partial class CreateUsersTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -61,7 +64,7 @@ namespace HouseFinances.Migrations
 
                     b.HasIndex("PersonID");
 
-                    b.ToTable("Carriers", (string)null);
+                    b.ToTable("Carriers");
                 });
 
             modelBuilder.Entity("HouseFinances.Entities.CarrierType", b =>
@@ -78,7 +81,7 @@ namespace HouseFinances.Migrations
 
                     b.HasKey("CarrierTypeID");
 
-                    b.ToTable("CarrierTypes", (string)null);
+                    b.ToTable("CarrierTypes");
                 });
 
             modelBuilder.Entity("HouseFinances.Entities.Expense", b =>
@@ -133,7 +136,7 @@ namespace HouseFinances.Migrations
 
                     b.HasIndex("RubricItemID");
 
-                    b.ToTable("Expenses", (string)null);
+                    b.ToTable("Expenses");
                 });
 
             modelBuilder.Entity("HouseFinances.Entities.ExpenseType", b =>
@@ -150,7 +153,7 @@ namespace HouseFinances.Migrations
 
                     b.HasKey("ExpenseTypeID");
 
-                    b.ToTable("ExpenseTypes", (string)null);
+                    b.ToTable("ExpenseTypes");
                 });
 
             modelBuilder.Entity("HouseFinances.Entities.PaymentMethod", b =>
@@ -167,7 +170,7 @@ namespace HouseFinances.Migrations
 
                     b.HasKey("PaymentMethodID");
 
-                    b.ToTable("PaymentMethods", (string)null);
+                    b.ToTable("PaymentMethods");
                 });
 
             modelBuilder.Entity("HouseFinances.Entities.Person", b =>
@@ -184,7 +187,7 @@ namespace HouseFinances.Migrations
 
                     b.HasKey("PersonID");
 
-                    b.ToTable("Persons", (string)null);
+                    b.ToTable("Persons");
                 });
 
             modelBuilder.Entity("HouseFinances.Entities.RubricItem", b =>
@@ -206,7 +209,7 @@ namespace HouseFinances.Migrations
 
                     b.HasIndex("ExpenseTypeID");
 
-                    b.ToTable("RubricItems", (string)null);
+                    b.ToTable("RubricItems");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

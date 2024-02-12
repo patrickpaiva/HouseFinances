@@ -4,6 +4,7 @@ using HouseFinances.DTO;
 using HouseFinances.Entities;
 using HouseFinances.Repositories;
 using HouseFinances.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,7 @@ namespace HouseFinances.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize(Roles ="Admin,User")]
     public class LookupController : ControllerBase
     {
         private readonly DataContext _context;
