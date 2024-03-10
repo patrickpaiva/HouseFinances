@@ -10,7 +10,7 @@
         public decimal Amount { get; set; }
         public required string Status { get; set; }
         public int PaymentMethodID { get; set; }
-        public int PaymentCarrierID { get; set; }
+        public int CarrierID { get; set; }
         public int Installments { get; set; }
     }
 }
